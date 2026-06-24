@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TiendaRapida.Models;
-using TiendaRapida.Services;
-
-namespace TiendaRapida.Controllers;
 
 public class CartController : Controller
 {
@@ -25,10 +22,7 @@ public class CartController : Controller
     {
         var product = _productService.GetProduct(productId);
         if (product == null || product.Stock < quantity)
-        {
-            TempData["Error"] = "Producto no disponible o sin stock";
-            return RedirectToAction("Index", "Home");
-        }
+            return BadRequest("Producto no disponible");
 
         var cart = GetCartFromSession();
         var existing = cart.FirstOrDefault(c => c.ProductId == productId);
@@ -49,7 +43,6 @@ public class CartController : Controller
         }
 
         SaveCartToSession(cart);
-        TempData["Success"] = $"{product.Name} agregado al carrito";
         return RedirectToAction("Index", "Home");
     }
 
@@ -71,22 +64,19 @@ public class CartController : Controller
     {
         var cart = GetCartFromSession();
         if (!cart.Any())
-        {
-            TempData["Error"] = "El carrito está vacío";
-            return RedirectToAction("Index");
-        }
+            return BadRequest("Carrito vacío");
 
-        // Verificar stock y actualizar
         foreach (var item in cart)
         {
-            if (!_productService.UpdateStock(item.ProductId, item.Quantity))
+            var product = _productService.GetProduct(item.ProductId);
+            if (product == null || product.Stock < item.Quantity)
             {
                 TempData["Error"] = $"No hay suficiente stock de {item.ProductName}";
                 return RedirectToAction("Index");
             }
+            product.Stock -= item.Quantity;
         }
 
-        // Limpiar carrito
         HttpContext.Session.Remove("Cart");
         TempData["Success"] = "¡Compra realizada con éxito!";
         return RedirectToAction("Index", "Home");

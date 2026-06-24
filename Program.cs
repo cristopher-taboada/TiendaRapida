@@ -1,8 +1,5 @@
-using TiendaRapida.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar servicios
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -12,12 +9,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Registrar el servicio de productos (Singleton para que persista en memoria)
 builder.Services.AddSingleton<ProductService>();
 
 var app = builder.Build();
 
-// Middleware
 app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();

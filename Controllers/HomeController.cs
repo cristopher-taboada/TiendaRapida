@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using TiendaRapida.Services;
-
-namespace TiendaRapida.Controllers;
 
 public class HomeController : Controller
 {
@@ -15,6 +12,11 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         ViewBag.Products = _productService.GetProducts();
+        return View();
+    }
+
+    public IActionResult Privacy()
+    {
         return View();
     }
 }
