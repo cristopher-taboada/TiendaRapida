@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Carrito";
+    var cart = Model as List<TiendaRapida.Models.CartItem> ?? new List<TiendaRapida.Models.CartItem>();
+    var total = cart.Sum(c => c.Price * c.Quantity);
+}
+
+<div class="container mt-4">
+    <h1>🛒 Tu Carrito</h1>
+
+    @if (!cart.Any())
+    {
+        <div class="alert alert-info">
+            <p>Tu carrito está vacío. <a href="/">¡Empieza a comprar!</a></p>
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in cart)
+                {
+                    var subtotal = item.Price * item.Quantity;
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>$@item.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>$@subtotal</td>
+                        <td>
+                            <form method="post" action="/Cart/Remove">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                    <td colspan="2"><strong>$@total</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <a href="/" class="btn btn-secondary">⬅️ Seguir comprando</a>
+            <form method="post" action="/Cart/Checkout">
+                <button type="submit" class="btn btn-success btn-lg">✅ Comprar Ahora</button>
+            </form>
+        </div>
+    }
+</div>

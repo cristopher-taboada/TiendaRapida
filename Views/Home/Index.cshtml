@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Tienda Rápida";
+    var products = ViewBag.Products as List<TiendaRapida.Models.Product> ?? new List<TiendaRapida.Models.Product>();
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">🛍️ Nuestros Productos</h1>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        @foreach (var product in products)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted">@product.Description</p>
+                        <p class="card-text">
+                            <strong class="text-success">$@product.Price.ToString("0.00")</strong>
+                            <br />
+                            <small class="text-muted">Stock: @product.Stock</small>
+                        </p>
+                        <form method="post" action="/Cart/Add">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <div class="input-group">
+                                <input type="number" name="quantity" value="1" min="1" max="@product.Stock" class="form-control" style="width: 70px;" />
+                                <button type="submit" class="btn btn-primary">🛒 Agregar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/Cart/Index" class="btn btn-success btn-lg">
+            🛒 Ver Carrito
+        </a>
+    </div>
+</div>
