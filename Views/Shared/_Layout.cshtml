@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,12 +7,52 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TiendaRapida.styles.css" asp-append-version="true" />
+    <style>
+            .navbar-brand {
+                font-weight: bold;
+                color: #2c3e50 !important;
+            }
+
+            .nav-link:hover {
+                color: #3498db !important;
+                transform: scale(1.05);
+                transition: all 0.3s;
+            }
+
+            .footer {
+                background-color: #2c3e50;
+                color: white !important;
+                padding: 20px 0;
+                margin-top: 40px;
+            }
+
+                .footer a {
+                    color: #3498db !important;
+                    text-decoration: none;
+                }
+
+                    .footer a:hover {
+                        color: #5dade2 !important;
+                    }
+
+            .btn-primary {
+                background-color: #3498db;
+                border-color: #3498db;
+            }
+
+                .btn-primary:hover {
+                    background-color: #2e86c1;
+                    border-color: #2e86c1;
+                }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TiendaRapida</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    🏪 TiendaRapida
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,27 +60,38 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">🏠 Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Inventory" asp-action="Index">📦 Inventario</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">🛒 Carrito</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">🔒 Privacidad</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - TiendaRapida - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer border-top text-muted">
+        <div class="container text-center">
+            <p class="mb-0">© 2026 - <strong>TiendaRapida</strong> - Todos los derechos reservados</p>
+            <p class="mb-0">
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de Privacidad</a>
+            </p>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
